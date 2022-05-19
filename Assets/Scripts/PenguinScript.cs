@@ -5,6 +5,8 @@ using UnityEngine;
 public class PenguinScript : MonoBehaviour
 {
     [SerializeField]
+    float BumpForce;
+    [SerializeField]
     float PowerMultiplier;
    public static PenguinScript Instance;
 
@@ -18,14 +20,28 @@ public class PenguinScript : MonoBehaviour
        rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
     }
+    
     private void OnTriggerEnter(Collider other)
     {
         if(Grounded != true)
         {
-            Grounded = true;
-           SetRot();
+           
+            if (rb.velocity.y <= -5)
+            {
+                Bump();
+            }
+            else
+            {
+
+                Grounded = true;
+                SetRot();
+            }
             //rb.angularVelocity = new Vector3(0f, 0f, 0f);
         }
+    }
+    private void Bump()
+    {
+        rb.AddForce(Vector3.up * (rb.velocity.y * -1) * BumpForce, ForceMode.Impulse);
     }
     private void OnTriggerExit(Collider other)
     {
