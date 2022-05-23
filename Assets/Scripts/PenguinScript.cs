@@ -20,7 +20,11 @@ public class PenguinScript : MonoBehaviour
        rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
     }
-    
+    private void OnTriggerStay(Collider other)
+    {
+        Grounded = true;
+
+    }
     private void OnTriggerEnter(Collider other)
     {
         if(Grounded != true)
@@ -28,14 +32,14 @@ public class PenguinScript : MonoBehaviour
            
             if (rb.velocity.y <= -5)
             {
+                
                 Bump();
             }
-            else
-            {
+            
 
                 Grounded = true;
                 SetRot();
-            }
+            
             //rb.angularVelocity = new Vector3(0f, 0f, 0f);
         }
     }
@@ -47,10 +51,13 @@ public class PenguinScript : MonoBehaviour
     {
         Grounded = false;
     }
-    private void Update()
+    
+    private void FixedUpdate()
     {
-        if(rb.velocity == Vector3.zero && Grounded == true)
+        
+        if(rb.velocity.magnitude < 0.05f && Grounded == true)
         {
+            print("стоп");
             AngleAndPower.Instance.RestartAngleAndPower();
         }
         Rotate();

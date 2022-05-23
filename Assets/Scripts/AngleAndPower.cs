@@ -32,10 +32,13 @@ public class AngleAndPower : MonoBehaviour
         {
             
             PowerScript.Instance.SetPowerBool(false);
+            
+            PenguinScript.Instance.HitPenguinByAngleAndPower();
             ToHit = false;
             AngleSet = false;
             IsSetting = false;
-            PenguinScript.Instance.HitPenguinByAngleAndPower();
+            PowerScript.Instance.gameObject.SetActive(false);
+           AngleScript.Instance.gameObject.SetActive(false);
 
         }
 
@@ -50,6 +53,8 @@ public class AngleAndPower : MonoBehaviour
         
         if (IsSetting == false && ToHit == false)
         {
+            PowerScript.Instance.gameObject.SetActive(true);
+            AngleScript.Instance.gameObject.SetActive(true);
             print("Restart");
             ToHit = true;
             AngleScript.Instance.AngleSetBool(true);
