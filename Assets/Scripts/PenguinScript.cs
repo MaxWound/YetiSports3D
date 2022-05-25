@@ -4,41 +4,58 @@ using UnityEngine;
 
 public class PenguinScript : MonoBehaviour
 {
+    private SphereCollider SphereCollider;
+    public bool inSimulation = false;
     [SerializeField]
     float BumpForce;
     [SerializeField]
     float PowerMultiplier;
    public static PenguinScript Instance;
-
+    MeshRenderer renderer;
     private bool StartHitted = false;
     private bool Grounded = false;
     Rigidbody rb;
+   public Rigidbody _rb => rb;
     private void Awake()
     {
-
+        SphereCollider = GetComponent<SphereCollider>();
+        renderer = GetComponent<MeshRenderer>();
         Instance = this;
        rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
+    }
+    public void SetCollider(bool _bool)
+    {
+        SphereCollider.enabled = _bool;
     }
     private void OnTriggerStay(Collider other)
     {
         Grounded = true;
 
     }
+    public void SetGrounded(bool _bool)
+    {
+        Grounded = _bool;
+    }
+    public void SetVisible(bool _bool)
+    {
+        renderer.enabled = _bool;
+    }
     private void OnTriggerEnter(Collider other)
     {
         if(Grounded != true)
         {
-           
-            if (rb.velocity.y <= -5)
+
+            if (rb.velocity.y <= -1f)
             {
-                
+
                 Bump();
             }
-            
 
+           
                 Grounded = true;
                 SetRot();
+           
             
             //rb.angularVelocity = new Vector3(0f, 0f, 0f);
         }
@@ -55,7 +72,7 @@ public class PenguinScript : MonoBehaviour
     private void FixedUpdate()
     {
         
-        if(rb.velocity.magnitude < 0.05f && Grounded == true)
+        if(rb.velocity.magnitude < 0.05f && Grounded == true && inSimulation != true)
         {
             print("стоп");
             AngleAndPower.Instance.RestartAngleAndPower();
@@ -77,13 +94,13 @@ public class PenguinScript : MonoBehaviour
         print(dir);
         rb.AddForce(dir * PowerMultiplier * PowerScript.Instance.powerValue , ForceMode.Impulse);
     }
-    void SetRot()
+   public void SetRot()
     {
        
             rb.MoveRotation(Quaternion.Euler(0f, -90f, 90f));
         
     }
-    void Rotate()
+    public void Rotate()
     {
         //  if (StartHitted == true)
         if(Grounded == false)
