@@ -34,19 +34,24 @@ public class AngleScript : MonoBehaviour
     }
     public void RotAngle()
     {
+        
         if (ToMove)
         {
-            float angle = transform.eulerAngles.y;
-            if ((Mathf.Repeat(angle + 180, 360) - 180 <= -90f))
+            float angle = Vector3.Angle(Vector3.up, transform.forward);
+
+            print(angle);
+            if (angle <= 0f)
             {
-                moveValue = 1;
-            }
-            else if ((Mathf.Repeat(angle + 180, 360) - 180 >= 0f))
-            {
+                //print("change");
                 moveValue = -1;
             }
+            else if (angle >= 90)
+            {
+                //print("change");
+                moveValue = 1;
+            }
             
-            transform.Rotate(Vector3.up, 90f * speed * moveValue * Time.deltaTime);
+            transform.Rotate(Vector3.up, 90f * speed * moveValue * Time.fixedDeltaTime);
             
             direction = secondPoint.position - firstPoint.position;
         }

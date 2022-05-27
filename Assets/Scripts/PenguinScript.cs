@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PenguinScript : MonoBehaviour
 {
+    private Quaternion startRot;
+    public bool settingAngleAndPower = false;
     private SphereCollider SphereCollider;
     public bool inSimulation = false;
     [SerializeField]
@@ -23,6 +25,10 @@ public class PenguinScript : MonoBehaviour
         Instance = this;
        rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
+    }
+    private void Start()
+    {
+        startRot = rb.rotation;
     }
     public void SetCollider(bool _bool)
     {
@@ -72,8 +78,9 @@ public class PenguinScript : MonoBehaviour
     private void FixedUpdate()
     {
         
-        if(rb.velocity.magnitude < 0.05f && Grounded == true && inSimulation != true)
+        if(rb.velocity.magnitude < 0.05f && Grounded == true && inSimulation != true && settingAngleAndPower == false)
         {
+            settingAngleAndPower = true;
             print("стоп");
             AngleAndPower.Instance.RestartAngleAndPower();
         }
@@ -93,11 +100,12 @@ public class PenguinScript : MonoBehaviour
         Vector3 dir = AngleScript.Instance.direction;
         print(dir);
         rb.AddForce(dir * PowerMultiplier * PowerScript.Instance.powerValue , ForceMode.Impulse);
+        settingAngleAndPower = false;
     }
    public void SetRot()
     {
-       
-            rb.MoveRotation(Quaternion.Euler(0f, -90f, 90f));
+
+        rb.rotation = startRot;
         
     }
     public void Rotate()
@@ -110,7 +118,7 @@ public class PenguinScript : MonoBehaviour
             var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
 
             //penguinTransform.localRotation = Quaternion.Euler(0f, 0f, angle);
-            print("r");
+            //print("r");
 
             if (rb.velocity != Vector3.zero && Grounded == false)
             {

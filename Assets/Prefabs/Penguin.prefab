@@ -96,6 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08452a7234c424546b73baa5caf73f7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  settingAngleAndPower: 0
   inSimulation: 0
   BumpForce: 1.54
   PowerMultiplier: 10
@@ -126,5 +127,5 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.29
+  m_Radius: 0.41
   m_Center: {x: 0, y: 0, z: 0}
