@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PenguinScript : MonoBehaviour
 {
+    private Vector3 startPos;
     private Quaternion startRot;
     public bool settingAngleAndPower = false;
     private SphereCollider SphereCollider;
@@ -29,6 +30,7 @@ public class PenguinScript : MonoBehaviour
     private void Start()
     {
         startRot = rb.rotation;
+        startPos = rb.position;
     }
     public void SetCollider(bool _bool)
     {
@@ -38,6 +40,10 @@ public class PenguinScript : MonoBehaviour
     {
         Grounded = true;
 
+    }
+    public void SetZ()
+    {
+        rb.position = new Vector3(rb.position.x, rb.position.y, startPos.z);
     }
     public void SetGrounded(bool _bool)
     {
