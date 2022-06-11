@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class GiraffeScript : MonoBehaviour
 {
+    [SerializeField]
+    Transform vectorA;
+    [SerializeField]
+    Transform vectorB;
     Collider GOcollider;
     [SerializeField]
     Animator animator;
@@ -15,11 +19,14 @@ public class GiraffeScript : MonoBehaviour
     float waitSec;
     [SerializeField]
     Transform spawner;
+    Vector3 hitDirection;
     Vector2 spawnerPos;
     private void Start()
     {
+        hitDirection = vectorB.position - vectorA.position;
         //spawnerPos = spawner.position;
         GOcollider = GetComponent<Collider>();
+
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -53,7 +60,9 @@ public class GiraffeScript : MonoBehaviour
         PenguinScript.Instance.SetRot();
         PenguinScript.Instance.SetGrounded(false);
         PenguinScript.Instance.SetZ();
-        PenguinScript.Instance._rb.AddForce(Vector3.left * throwPower, ForceMode.Impulse);
+        
+        PenguinScript.Instance._rb.AddForce(hitDirection * throwPower, ForceMode.Impulse);
+        PenguinScript.Instance.SetGrounded(false);
         //animator.SetBool("Throw", false);
         yield return new WaitForSeconds(0.2f);
         PenguinScript.Instance.inSimulation = false;

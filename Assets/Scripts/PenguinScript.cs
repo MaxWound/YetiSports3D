@@ -55,25 +55,29 @@ public class PenguinScript : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(Grounded != true)
+        if (other.tag == "Ground")
         {
-
-            if (rb.velocity.y <= -1f)
+            if (Grounded != true)
             {
 
-                Bump();
-            }
+                if (rb.velocity.y < -0.5f)
+                {
+                    
+                    Bump();
+                }
 
-           
+
                 Grounded = true;
                 SetRot();
-           
-            
-            //rb.angularVelocity = new Vector3(0f, 0f, 0f);
+
+
+                //rb.angularVelocity = new Vector3(0f, 0f, 0f);
+            }
         }
     }
     private void Bump()
     {
+        print("Bump");
         rb.AddForce(Vector3.up * (rb.velocity.y * -1) * BumpForce, ForceMode.Impulse);
     }
     private void OnTriggerExit(Collider other)
