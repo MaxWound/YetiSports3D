@@ -104,6 +104,7 @@ public class PenguinScript : MonoBehaviour
     }
     public void HitPenguinByAngleAndPower()
     {
+        AngleAndPower.Instance.HitAnim();
         Grounded = false;
         StartHitted = true;
         rb.useGravity = true;
@@ -111,6 +112,7 @@ public class PenguinScript : MonoBehaviour
         print(dir);
         rb.AddForce(dir * PowerMultiplier * PowerScript.Instance.powerValue , ForceMode.Impulse);
         settingAngleAndPower = false;
+        
     }
    public void SetRot()
     {

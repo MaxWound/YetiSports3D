@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AngleAndPower : MonoBehaviour
 {
+   public Animator yetiAnim;
     public static AngleAndPower Instance;
     private bool AngleSet = false;
     private bool AngleSetting = false;
@@ -14,6 +15,12 @@ public class AngleAndPower : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+    }
+    private void Start()
+    {
+        IsSetting = false;
+        ToHit = false;
+        RestartAngleAndPower();
     }
     private void Update()
     {
@@ -53,11 +60,28 @@ public class AngleAndPower : MonoBehaviour
         
         if (IsSetting == false && ToHit == false)
         {
-            PowerScript.Instance.gameObject.SetActive(true);
-            AngleScript.Instance.gameObject.SetActive(true);
-            print("Restart");
-            ToHit = true;
-            AngleScript.Instance.AngleSetBool(true);
+            StartCoroutine(RestartHit());
         }
+    }
+    public IEnumerator RestartHit()
+    {
+        PowerScript.Instance.gameObject.SetActive(false);
+        AngleScript.Instance.gameObject.SetActive(false);
+        yetiAnim.ResetTrigger("strike");
+
+        yetiAnim.ResetTrigger("take");
+        yetiAnim.SetTrigger("take");
+        yetiAnim.gameObject.transform.position = new Vector3(PenguinScript.Instance.transform.position.x, yetiAnim.gameObject.transform.position.y, yetiAnim.gameObject.transform.position.z);
+        
+        yield return new WaitForSeconds(3f);
+        PowerScript.Instance.gameObject.SetActive(true);
+        AngleScript.Instance.gameObject.SetActive(true);
+        print("Restart");
+        ToHit = true;
+        AngleScript.Instance.AngleSetBool(true);
+    }
+    public void HitAnim()
+    {
+        yetiAnim.SetTrigger("strike");
     }
 }
