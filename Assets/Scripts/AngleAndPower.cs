@@ -57,7 +57,7 @@ public class AngleAndPower : MonoBehaviour
     }
     public void RestartAngleAndPower()
     {
-        
+        print("1");
         if (IsSetting == false && ToHit == false)
         {
             StartCoroutine(RestartHit());

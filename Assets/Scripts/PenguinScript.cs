@@ -55,18 +55,22 @@ public class PenguinScript : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Ground")
+       
+    }
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.tag == "Ground")
         {
             if (Grounded != true)
             {
 
                 if (rb.velocity.y < -0.5f)
                 {
-                    
+
                     Bump();
                 }
 
-
+                print("ground");
                 Grounded = true;
                 SetRot();
 
@@ -75,6 +79,11 @@ public class PenguinScript : MonoBehaviour
             }
         }
     }
+    private void OnCollisionExit(Collision other)
+    {
+        Grounded = false;
+    }
+
     private void Bump()
     {
         print("Bump");
