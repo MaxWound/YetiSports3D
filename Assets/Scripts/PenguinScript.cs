@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class PenguinScript : MonoBehaviour
 {
+    public float SnakePower;
+
+    [SerializeField]
+    Animator animator;
     private Vector3 startPos;
-    private Quaternion startRot;
+    public Quaternion startRot;
     public bool settingAngleAndPower = false;
     private SphereCollider SphereCollider;
     public bool inSimulation = false;
@@ -26,6 +30,11 @@ public class PenguinScript : MonoBehaviour
         Instance = this;
        rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
+    }
+    public void RotAnim()
+    {
+        animator.ResetTrigger("Rot");
+        animator.SetTrigger("Rot");
     }
     private void Start()
     {
@@ -55,7 +64,11 @@ public class PenguinScript : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-       
+       if(other.tag == "Snake")
+        {
+           SetGrounded(false);
+            _rb.AddForce(Vector3.up * SnakePower, ForceMode.Impulse);
+        }
     }
     private void OnCollisionEnter(Collision other)
     {
@@ -86,6 +99,7 @@ public class PenguinScript : MonoBehaviour
 
     private void Bump()
     {
+        RotAnim();
         print("Bump");
         rb.AddForce(Vector3.up * (rb.velocity.y * -1) * BumpForce, ForceMode.Impulse);
     }

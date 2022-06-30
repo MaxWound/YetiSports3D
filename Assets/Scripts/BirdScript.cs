@@ -73,13 +73,14 @@ public class BirdScript : MonoBehaviour
     {
         PenguinScript.Instance.SetCollider(false);
         PenguinScript.Instance.inSimulation = true;
-
+        PenguinScript.Instance.transform.rotation = PenguinScript.Instance.startRot;
         PenguinScript.Instance.transform.position = HolderTransform.position;
+        
 
-        PenguinScript.Instance.transform.rotation = Quaternion.Euler(0f, -90f,90f);
         PenguinScript.Instance.transform.SetParent(HolderTransform);
         pengRb.velocity = new Vector3(0f,0f, 0f);
         pengRb.isKinematic = true;
+        
         yield return new WaitForSeconds(HoldTime);
         PenguinScript.Instance.transform.parent = null;
         toUp = true;
